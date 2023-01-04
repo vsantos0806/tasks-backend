@@ -31,10 +31,9 @@ pipeline {
         }        
         stage ('Deploy Backend') {
             steps {
-                deploy adapters: [tomcat8(credentialsId: 'TomcatLogin', path: '', url: 'http://localhost:8001/')]
+                deploy adapters: [tomcat8(credentialsId: 'TomcatLogin', path: '', url: 'http://localhost:8001/')], contextPath: 'tasks-backend', war: 'target/tasks-backend.war'
             }
-        }
-        
+        }       
 
         stage ('API Test') {
             steps {
@@ -44,5 +43,15 @@ pipeline {
                 }                
             }
         }
+
+        stage ('Deploy Frontend') {
+            steps {
+                dir('frontend') {
+                git credentialsId: 'github_login', url: 'https://github.com/vsantos0806/tasks-frontend'
+                bat 'mvn clean package'
+                deploy adapters: [tomcat8(credentialsId: 'TomcatLogin', path: '', url: 'http://localhost:8001/')], contextPath: 'tasks', war: 'target/tasks.war'
+                }
+            }
+        }
     }
-}    
+}
