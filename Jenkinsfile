@@ -28,13 +28,13 @@ pipeline {
                     waitForQualityGate abortPipeline: true
                 }
             }
-        }
-        stage ('Deploy Backend') {
-            steps {
-                deploy adapters: [tomcat8(credentialsId: 'TomcatLogin', path: '', url: 'http://localhost:8001/')]
-                }
-            }
-        }
+        }        
+        //stage ('Deploy Backend') {
+          //  steps {
+            //    deploy adapters: [tomcat8(credentialsId: 'TomcatLogin', path: '', url: 'http://localhost:8001/')]
+              //  }
+            //}
+        //}
 
         stage ('API Test') {
             steps {
