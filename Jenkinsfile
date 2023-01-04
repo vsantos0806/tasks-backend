@@ -29,19 +29,18 @@ pipeline {
                 }
             }
         }        
-        //stage ('Deploy Backend') {
-          //  steps {
-            //    deploy adapters: [tomcat8(credentialsId: 'TomcatLogin', path: '', url: 'http://localhost:8001/')]
-              //  }
-            //}
-        //}
+        stage ('Deploy Backend') {
+            steps {
+                deploy adapters: [tomcat8(credentialsId: 'TomcatLogin', path: '', url: 'http://localhost:8001/')]
+            }
+        }
+        
 
         stage ('API Test') {
             steps {
                 git credentialsId: 'github_login', url: 'https://github.com/vsantos0806/tasks-api-test'
                 bat 'mvn test'
-                }
             }
         }
-    }    
-}
+    }
+}    
